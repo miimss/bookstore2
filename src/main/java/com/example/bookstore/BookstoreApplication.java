@@ -12,6 +12,12 @@ import com.example.bookstore.model.Book;
 import com.example.bookstore.model.BookRepository;
 import com.example.bookstore.model.Category;
 import com.example.bookstore.model.CategoryRepository;
+import com.example.bookstore.model.User;
+import com.example.bookstore.model.UserRepository;
+
+
+
+
 
 
 @SpringBootApplication
@@ -23,7 +29,7 @@ public class BookstoreApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner bookDemo(BookRepository brepository, CategoryRepository crepository) {
+	public CommandLineRunner bookDemo(BookRepository brepository, CategoryRepository crepository, UserRepository urepository) {
 		return (args) -> {
 			log.info("Save a few categories");
 			crepository.save(new Category("autobiography"));
@@ -33,6 +39,12 @@ public class BookstoreApplication {
 			log.info("Save a few books");
 			brepository.save(new Book("Becoming", "Michelle Obama", 2018, "9780241334140", 22.50, crepository.findByName("autobiography").get(0)));
 			brepository.save(new Book("Harry Potter and the Philosopher's stone", "J.K. Rowling", 1997, "9781408845646", 25.00, crepository.findByName("fantasy").get(0)));
+			
+			log.info("Save a few users");
+			User user1 = new User("user", "$2y$12$tqUpUJNy7bA/thNlipiKWe1N0FRptMT0yE9mW0DeOMN27eKOU8vAS", "user@email.com", "USER");
+			User user2 = new User("admin", "$2y$12$SFgoUMobWWadz4ifbGoEEu/Pz8pIwjhOsp8o8YDH9/KGvfo6vOCxS", "admin@email.com", "ADMIN");
+			urepository.save(user1);
+			urepository.save(user2);
 			
 			log.info("Fetch all books");
 			for (Book book: brepository.findAll()) {
